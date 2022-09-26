@@ -6,8 +6,8 @@ from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
 import json
 
-raw_dir = ""
-clean_files_dir = ""
+raw_dir = "" # Path to original novel files in xml format
+clean_files_dir = "" # Path for saving cleaned text files of each novel
 
 def get_files(directory):
     """Get a list of file paths for a given directory"""

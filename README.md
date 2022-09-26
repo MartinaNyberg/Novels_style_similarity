@@ -20,7 +20,7 @@ The different variants of encoded segments were used as input in classification 
 ## Author/novel similarity
 On the basis of the results in the authorship attribution task, one feature set is selected to represent the writing style in pairwise comparisons of stylistic similarity. The Jensen-Shannon divergence is used to measure similarity, which quantifies the difference between two probability distributions. The relative frequency vectors of each novel/author are converted into probability distributions and used as input to the similarity measure.
 
-This implementation is found in the file ``calculate_similarity.py``, calculating e.g. which authors/novels are the most similar to a given author/novel in the collection, based on the chosen represenation of style. 
+This implementation is found in the file ``calculate_similarity.py``, calculating e.g. which authors/novels are the most stylistically similar to a given author/novel in the collection, based on the chosen represenation of style. 
 
 Output from some example runs are given below. 
 

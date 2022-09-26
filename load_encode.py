@@ -3,7 +3,7 @@ from nltk.util import ngrams
 import numpy as np
 import json
 
-clean_files_dir = "C:/Users/marti/Documents/UU/Research and development/Project/data/Litteraturbanken/cleaned_texts"
+clean_files_dir = ""
 
 def load_author_names():
     authors = []

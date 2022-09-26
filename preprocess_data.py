@@ -6,13 +6,8 @@ from nltk.tokenize import word_tokenize
 from nltk.util import ngrams
 import json
 
-#TODO: Maybe show list of word use for each author? 
-#TODO: Show a graph of the word use for a given author. Like the example in the notes document. 
-#TODO: See which author is the most different from others. See if this is stringbergs translated texts. 
-
-raw_dir = "C:/Users/marti/Documents/UU/Research and development/Project/data/Litteraturbanken/files"
-clean_files_dir = "C:/Users/marti/Documents/UU/Research and development/Project/data/Litteraturbanken/cleaned_texts"
-clean_files_dir_1 = "C:/Users/marti/Documents/UU/Research and development/Project/data/Litteraturbanken/cleaned_texts_1"
+raw_dir = ""
+clean_files_dir = ""
 
 def get_files(directory):
     """Get a list of file paths for a given directory"""
@@ -91,7 +86,6 @@ def load_author_names(filename):
             name = author[:-12]
             name_gender = name + "@@" + gender.strip()
             authors.append(name_gender)
-    #del authors[-3:]
     return authors
 
 
@@ -120,20 +114,6 @@ class Novel:
         cleaned = re.sub('\s\s­+', '', cleaned)
         return cleaned
 
-    def tokenize_and_linebreak(self, text):
-        cleaned = text.replace(":", " :").replace(";", " ;").replace(",", " ,").replace("(", "( ").replace(")", " )")
-        cleaned = re.sub(r"'(?=\S)", r"' ", cleaned)
-        cleaned = re.sub(r"(?<=\S)'", r" '", cleaned) 
-        cleaned = re.sub(r"”(?=\S)", r"” ", cleaned)
-        cleaned = re.sub(r"(?<=\S)”", r" ”", cleaned)
-        cleaned = re.sub(r"\? (?=[a-z])", " ? ", cleaned)
-        cleaned = re.sub(r'(\w)(\.+)', r'\1 \2\n', cleaned)
-        cleaned = re.sub(r'(\w)(!+)', r'\1 \2\n', cleaned)
-        cleaned = re.sub(r"\? (?![a-z])", " ?\n", cleaned)
-        cleaned = cleaned.replace("\n ", "\n")
-               
-        return cleaned
-
     def write_to_file(self, text, name, filepath):
         complete_name = os.path.join(filepath, name)
         with open(complete_name, "w", encoding="utf8") as file:
@@ -149,8 +129,8 @@ class Novel:
         title_name = title_name[:100]
 
         # Write the cleaned text of the novel to a file, all on one line without tokenization. 
-        clean_file = author_name + "_" + title_name + "_clean_1.txt"
-        self.write_to_file(self.novel_text, clean_file, clean_files_dir_1)
+        clean_file = author_name + "_" + title_name + "_clean.txt"
+        self.write_to_file(self.novel_text, clean_file, clean_files_dir)
 
 
 class Corpus:
@@ -158,7 +138,6 @@ class Corpus:
     def __init__(self, authors):
         self.authors = authors
         self.corpus = None
-        #self.author_genders = None
 
     def create_authors_corpus(self, data_dir, tokenize=False):
         """Creates a nested dictionary with author name, names of each text for the author, and the texts in themselves. 
@@ -299,6 +278,7 @@ def get_top_n_words(files_dir, n):
             file.write("\n")
     print(f"Created {filename}")
 
+
 def get_top_ngrams(files_dir, n, length):
     """Get the {length} most frequent ngrams in all files from a directory, and write the words to a file.
     n: ngram size"""
@@ -416,7 +396,6 @@ def remove_token(token, directory):
             print("removed token")
 
 
-#This is the real main, if starting over
 def main():
     print("Creating clean files...")
     create_clean_files(raw_dir) # Create cleaned files from raw xml data
@@ -427,8 +406,8 @@ def main():
     novel_corpus = Corpus(authors) # Create corpus object with authors
 
     print("Creating corpora...")
-    novel_corpus.create_authors_corpus(clean_files_dir_1, tokenize=True) # Create json file with tokenized novels
-    novel_corpus.create_authors_corpus(clean_files_dir_1, tokenize=False) # Create json file with novels as strings
+    novel_corpus.create_authors_corpus(clean_files_dir, tokenize=True) # Create json file with tokenized novels
+    novel_corpus.create_authors_corpus(clean_files_dir, tokenize=False) # Create json file with novels as strings
     print("Corpus creation done.")
 
     novel_corpus.load_corpus(tokenized=True)
@@ -445,56 +424,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    #get_author_names(raw_dir, "author_names.txt")
-   # authors = load_author_names("author_names.txt")
-   # for name in authors:
-     #   print(name)
-    #print(authors)
-    #a = Corpus(authors)
-    #a.load_corpus(tokenized=True)
-    #create_info(a)
-    #create_info(raw_dir, a)
-    #a.create_authors_corpus(clean_files_dir, tokenize=True)
-    #a.create_authors_corpus(clean_files_dir, tokenize=False)
-
-    #print(len(a.authors_texts["Martin Koch@@M"]['Ellen En liten historia']))
-    #print(a.authors_token_counts())
-    #print(check_features("ngrams", a.authors_texts, ngram=7, tokenize=False))
-    #print(check_features("ngrams", a.authors_texts, ngram=4, tokenize=False))
-    #create_feature_files()
-    #a.load_corpus(tokenized=True)
-   #create_feature_files()
-    #remove_uncommon_features("top_350_tokens.txt", a.authors_texts, 124, "freq_250", None, tokenize=True)
-   # remove_uncommon_features("freq_short.txt", a.authors_texts, 124, "freq_short", None, tokenize=True)
-  #  remove_uncommon_features("stopwords.txt", a.authors_texts, 124, "stopwords", None, tokenize=True)
-   ## remove_uncommon_features("top_5_grams_2500.txt", a.authors_texts, 124, "ngrams", 5, tokenize=False)
-   # remove_uncommon_features("top_6_grams_2500.txt", a.authors_texts, 124, "ngrams", 6, tokenize=False)
-   # remove_uncommon_features("top_7_grams_2500.txt", a.authors_texts, 124, "ngrams", 7, tokenize=False)
-    #print(check_features("ngrams", a.authors_texts, ngram=5, tokenize=False))
-    #remove_uncommon_features("top_4_grams_2500.txt", a.authors_texts, 124, "ngrams", 4, tokenize=False)
-   # remove_uncommon_features("top_5_grams_2500.txt", a.authors_texts, 124, "ngrams", 5, tokenize=False)
-   # remove_uncommon_features("top_6_grams_2500.txt", a.authors_texts, 124, "ngrams", 6, tokenize=False)
-   # remove_uncommon_features("top_7_grams_2500.txt", a.authors_texts, 124, "ngrams", 7, tokenize=False)
-   # print(check_features("ngrams", a.authors_texts, ngram=4, tokenize=False))
-   # print(check_features("ngrams", a.authors_texts, ngram=5, tokenize=False))
-   # print(check_features("freq_short", a.authors_texts, None, tokenize=True))
-    #print(check_features("stopwords", a.authors_texts, None, tokenize=True))
-
-
-    #def get_genders(self):
-    #"""Possibly useful in classification tasks. Gender info has been added manually in 
-    #info file."""
-    #with open("author_info_2.txt", "r", encoding="utf8") as f:
-    #    genders = []
-    #    for line in f:
-    #        try:
-    #            items = line.split("\t")
-    #            genders.append(items[-1].strip())
-    #        except IndexError:
-    #            continue
-
-    #    author_genders = []
-    #    for i, author in enumerate(self.authors):
-    #        author_genders.append(author+"@@"+genders[i])
-    #    self.author_genders = author_genders
-

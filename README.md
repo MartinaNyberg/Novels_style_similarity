@@ -1,6 +1,6 @@
 # An exploration of stylistic similarity in Swedish novels
 
-This project examines the writing style of Swedish authors from the perspective of authorship attribution and similarity calculations. Using data consisting of 249 Swedish novels written by 78 authors, several variants of feature sets are employed in an SVM and a Naive Bayes classifier for the task of identifying the authors based on stylistic properties. The novels, written during the 19th and 20th centuries, were collected from the Swedish Literature Bank (litteraturbanken.se). 
+This project examines the writing style of Swedish authors from the perspective of authorship attribution and similarity calculations. Using data consisting of 249 Swedish novels written by 78 authors, several variants of feature sets are employed in an SVM and a Naive Bayes classifier for the task of identifying the authors based on stylistic properties. The novels (which are not included in this repo), written during the 19th and 20th centuries, were collected from the Swedish Literature Bank (litteraturbanken.se). 
 
 For a more detailed presentation of the project, please see the (unpublished) paper "Authorship Attribution for Swedish Novels" in this repository. 
 

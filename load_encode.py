@@ -3,7 +3,7 @@ from nltk.util import ngrams
 import numpy as np
 import json
 
-clean_files_dir = ""
+clean_files_dir = "" # Path to clean text files with novels, created in the preprocessing module
 
 def load_author_names():
     authors = []
